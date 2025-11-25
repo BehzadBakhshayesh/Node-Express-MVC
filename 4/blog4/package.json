@@ -1,0 +1,22 @@
+{
+  "name": "blog",
+  "version": "0.0.1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev:css | npm run dev",
+    "dev": "node --env-file=.env --watch src/index.mjs",
+    "css": "tailwindcss -i ./public/styles/main.css -o ./public/styles/output.css --minify",
+    "dev:css": "tailwindcss -i ./public/styles/main.css -o ./public/styles/output.css --minify --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.18"
+  }
+}
