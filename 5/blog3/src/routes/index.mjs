@@ -1,6 +1,7 @@
 import express from "express"
 import general from "./general.mjs";
 import admin from "./amin/index.mjs";
+import { NotFoundError } from "../utils/errors.mjs";
 
 const router = express.Router()
 

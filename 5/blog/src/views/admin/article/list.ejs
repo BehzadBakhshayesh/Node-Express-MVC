@@ -20,6 +20,11 @@
                     <td class="border border-gray-300 px-4 py-2">
                          <%= article.title %>
                     </td>
+                     <td class="border border-gray-300 px-4 py-2 flex gap-2">
+                         <a href="/admin/article/<%= article.id %>"" class="text-blue-600 my-2 underline">detail  </a>
+                         <a href="/admin/article/edit/<%= article.id %>" class="text-blue-600 my-2 underline">edit  </a>
+                    </td>
+                    
                 </tr>
             </tbody>
          <% } %>

@@ -71,6 +71,19 @@ class ArticleController {
 
         return res.redirect(`/admin/article/${article.id}`)
     }
+
+    delete(req, res) {
+        const { id } = req.params
+
+        const article = articles.find(i => i.id === +id)
+        if (!article) {
+            throw new NotFoundError("Article not found");
+        }
+
+        articles = articles.filter(i => i.id !== +id)
+
+        return res.redirect("/admin/article")
+    }
 }
 
 export default new ArticleController()

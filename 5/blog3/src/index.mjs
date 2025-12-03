@@ -2,6 +2,8 @@ import express from "express"
 import routes from "./routes/index.mjs"
 import errorHandler from "./middlewares/error-handler.mjs";
 import path from "path";
+import overrideMethod from "./middlewares/overrideMethod.mjs";
+
 
 const app = express()
 
@@ -15,13 +17,8 @@ app.use(express.urlencoded({ extended: true }))
 app.set("view engine", "ejs")
 app.set("views", path.resolve(import.meta.dirname, "views"))
 
-// custom middlware ( method override)
-app.use((req, res, next) => {
-    if (req.method === "POST" && req.body._method) {
-        req.method = req.body._method
-    }
-    next()
-})
+// method-override
+app.use(overrideMethod)
 
 // routes
 app.use(routes)
