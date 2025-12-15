@@ -1,0 +1,55 @@
+<%- include("../../layouts/main-top.ejs") %>
+<div>
+    <div>
+        <a href="/admin/article/create"
+            class="text-blue-600 my-2 underline">Create an Article</a>
+    </div>
+    <table class="border-collapse border border-gray-400 w-full">
+        <thead>
+            <tr>
+                <th class="border border-gray-300 px-4 py-2">ID</th>
+                <th class="border border-gray-300 px-4 py-2">Title</th>
+            </tr>
+        </thead>
+        <% for (const article of articles) { %>
+        <tbody>
+            <tr>
+                <td class="border border-gray-300 px-4 py-2">
+                    <%= article.id %>
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                    <%= article.title %>
+                </td>
+                <td class="border border-gray-300 px-4 py-2 flex gap-2">
+                    <a href="/admin/article/<%= article.id %>"" class="
+                        text-blue-600 my-2 underline">detail </a>
+                    <a href="/admin/article/edit/<%= article.id %>"
+                        class="text-blue-600 my-2 underline">edit </a>
+
+                    <form
+                        action="/admin/article/<%= article.id %>"
+                        method="post" class="flex flex-col gap-3">
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <div>
+                            <button type='submit'
+                                class='text-blue-600 my-2 underline'>Delete</button>
+                        </div>
+                    </form>
+                </td>
+
+            </tr>
+        </tbody>
+
+
+
+
+
+
+
+
+
+        
+        <% } %>
+    </table>
+</div>
+<%- include("../../layouts/main-bottom.ejs") %>

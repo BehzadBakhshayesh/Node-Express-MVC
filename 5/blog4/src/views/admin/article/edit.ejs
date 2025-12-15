@@ -1,0 +1,20 @@
+<%- include("../../layouts/main-top.ejs") %>
+
+<div>
+    <form action="/admin/article/<%= article.id %>" method="post" class="flex flex-col gap-3">
+        <input type="hidden" name="_method"  value="PUT"/>
+        <div class='flex gap-2 justify-between w-["50%"]'>
+            <label for="title">Title</label>
+            <input type="text" name="title" class='border border-blue-500 p-2  flex-1' value="<%= article.title%>"/>
+        </div>
+         <div class='flex gap-2 justify-between w-["50%"]'>
+            <label for="text">Text</label>
+            <textarea name='text'  class='border border-blue-500 p-2 flex-1' ><%= article.text %></textarea>
+        </div>
+        <div>
+            <button type='submit' class='border bg-blue-500 px-5 py-2 rounded text-white'>submit</button>
+        </div>
+    </form>
+</div>
+
+<%- include("../../layouts/main-bottom.ejs") %>
