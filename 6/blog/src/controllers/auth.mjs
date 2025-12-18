@@ -1,0 +1,58 @@
+import { User } from "../models/user.mjs";
+import { BadRequestError } from "../utils/errors.mjs";
+
+class AuthController {
+    regigterPage(req, res) {
+        return res.render("auth/register.ejs",
+            {
+                title: "Register"
+            })
+    }
+
+    async regigter(req, res) {
+        const { username, password } = req.body
+
+        if (!username || !password) {
+            throw new BadRequestError("username and password are required!");
+        }
+
+        let user;
+        try {
+            user = await User.create({ username, password })
+        } catch (error) {
+            // console.log({ errorCode: error.original.code, errorMsg: error.original.sqlMessage });
+            if (error.original.code === 'ER_DUP_ENTRY') {
+                throw new BadRequestError("username is duplicated");
+            }
+            throw error
+        }
+        return res.json(user)
+    }
+
+    loginPage(req, res) {
+        return res.render("auth/login.ejs",
+            {
+                title: "Login"
+            })
+    }
+
+    async login(req, res) {
+        const { username, password } = req.body
+
+        if (!username || !password) {
+            throw new BadRequestError("username and password are required!");
+        }
+
+        const user = await User.findOne({ where: { username } })
+        if (!user) {
+            throw new BadRequestError("credential error");
+        }
+        if (user.password !== password) {
+            throw new BadRequestError("password is wrong");
+        }
+
+        return res.json(user)
+    }
+}
+
+export default new AuthController()
