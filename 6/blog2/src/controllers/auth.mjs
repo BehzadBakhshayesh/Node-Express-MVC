@@ -1,5 +1,6 @@
 import { User } from "../models/user.mjs";
 import { BadRequestError } from "../utils/errors.mjs";
+import bcrypt from "bcrypt"
 
 class AuthController {
     regigterPage(req, res) {
@@ -18,7 +19,9 @@ class AuthController {
 
         let user;
         try {
-            user = await User.create({ username, password })
+            const hashedPassword = bcrypt.hashSync(password, 12)
+
+            user = await User.create({ username, password: hashedPassword })
         } catch (error) {
             // console.log({ errorCode: error.original.code, errorMsg: error.original.sqlMessage });
             if (error.original.code === 'ER_DUP_ENTRY') {
@@ -26,6 +29,7 @@ class AuthController {
             }
             throw error
         }
+        user.setDataValue("password", undefined)
         return res.json(user)
     }
 
@@ -47,9 +51,12 @@ class AuthController {
         if (!user) {
             throw new BadRequestError("credential error");
         }
-        if (user.password !== password) {
+
+        if (!bcrypt.compareSync(password, user.password)) {
             throw new BadRequestError("password is wrong");
         }
+
+        user.setDataValue("password", undefined)
 
         return res.json(user)
     }
