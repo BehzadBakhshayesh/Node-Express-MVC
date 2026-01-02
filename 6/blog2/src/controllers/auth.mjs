@@ -58,6 +58,8 @@ class AuthController {
 
         user.setDataValue("password", undefined)
 
+        req.session.user = user
+
         return res.json(user)
     }
 }

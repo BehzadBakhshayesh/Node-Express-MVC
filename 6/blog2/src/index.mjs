@@ -4,6 +4,21 @@ import errorHandler from "./middlewares/error-handler.mjs";
 import path from "path";
 import overrideMethod from "./middlewares/overrideMethod.mjs";
 import { sequelize } from "./config/database.mjs";
+import session from 'express-session'
+import { RedisStore } from "connect-redis"
+import { createClient } from "redis"
+
+// Initialize client.
+const redisClient = createClient({
+    url: "redis://127.0.0.1:6379",
+});
+redisClient.connect().catch(console.error)
+
+// Initialize store.
+const redisStore = new RedisStore({
+    client: redisClient,
+    prefix: "myapp:",
+})
 
 const app = express()
 
@@ -21,6 +36,13 @@ app.use(express.urlencoded({ extended: true }))
 // add ejs
 app.set("view engine", "ejs")
 app.set("views", path.resolve(import.meta.dirname, "views"))
+
+// session 
+app.use(session({
+    // secret: crypto.randomBytes(64).toString('base64'),
+    secret: "afdsfsfsf0980978098dsfsklLKJJH;JKH(&^*()&^;lkj;j;fjsd;oifjsdofjsdofj",
+    store: redisStore,
+}))
 
 // method-override
 app.use(overrideMethod)
