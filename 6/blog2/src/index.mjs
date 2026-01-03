@@ -7,6 +7,7 @@ import { sequelize } from "./config/database.mjs";
 import session from 'express-session'
 import { RedisStore } from "connect-redis"
 import { createClient } from "redis"
+import auth from "./middlewares/auth.mjs";
 
 // Initialize client.
 const redisClient = createClient({
@@ -43,6 +44,9 @@ app.use(session({
     secret: "afdsfsfsf0980978098dsfsklLKJJH;JKH(&^*()&^;lkj;j;fjsd;oifjsdofjsdofj",
     store: redisStore,
 }))
+
+// assign user to req
+app.use(auth)
 
 // method-override
 app.use(overrideMethod)

@@ -4,6 +4,9 @@ import bcrypt from "bcrypt"
 
 class AuthController {
     regigterPage(req, res) {
+        if (req.user) {
+            return res.redirect("/")
+        }
         return res.render("auth/register.ejs",
             {
                 title: "Register"
@@ -11,6 +14,9 @@ class AuthController {
     }
 
     async regigter(req, res) {
+        if (req.user) {
+            return res.redirect("/")
+        }
         const { username, password } = req.body
 
         if (!username || !password) {
@@ -34,6 +40,10 @@ class AuthController {
     }
 
     loginPage(req, res) {
+
+        if (req.user) {
+            return res.redirect("/")
+        }
         return res.render("auth/login.ejs",
             {
                 title: "Login"
@@ -41,6 +51,9 @@ class AuthController {
     }
 
     async login(req, res) {
+        if (req.user) {
+            return res.redirect("/")
+        }
         const { username, password } = req.body
 
         if (!username || !password) {
@@ -61,6 +74,17 @@ class AuthController {
         req.session.user = user
 
         return res.json(user)
+    }
+
+    logout(req, res) {
+        req.session.destroy((err) => {
+            if (!err) {
+                return res.redirect(req.headers.referer)
+            } else {
+                throw new Error(err)
+            }
+        })
+
     }
 }
 

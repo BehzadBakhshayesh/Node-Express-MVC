@@ -11,7 +11,8 @@ class ArticleController {
         return res.render("admin/article/list",
             {
                 title: "Article list",
-                articles: articles
+                articles: articles,
+                user: req.user
             })
     }
 
@@ -28,12 +29,14 @@ class ArticleController {
             {
                 title: article.title,
                 article,
+                user: req.user
             });
     }
 
     create(req, res) {
         return res.render("admin/article/create", {
             title: "Create new Article",
+            user: req.user
         });
     }
 
@@ -58,6 +61,7 @@ class ArticleController {
             {
                 title: `Edit Article ${article.title}`,
                 article,
+                user: req.user
             });
     }
 
